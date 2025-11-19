@@ -1,32 +1,30 @@
 #include <stdio.h>
-#include <string.h>
 
 int main() {
+    FILE *file;
+    char filename[100];
     char name[100];
     int age;
 
-    printf("Enter your name: ");
-    fgets(name, sizeof(name), stdin);
+    printf("Enter filename: ");
+    scanf("%s", filename);
 
-    size_t len = strlen(name);
-    if(len > 0 && name[len - 1] == '\n') {
-        name[len - 1] = '\0';
-    }
-
-    printf("Enter your age: ");
-    scanf("%d", &age);
-
-    FILE *fp = fopen("info.txt", "w");
-    if(fp == NULL) {
-        printf("Error creating file.\n");
+    file = fopen(filename, "w");
+    if (file == NULL) {
+        printf("Error: Could not create file.\n");
         return 1;
     }
 
-    fprintf(fp, "Name: %s Age: %d\n", name, age);
+    printf("Enter name: ");
+    scanf("%s", name);
 
-    fclose(fp);
+    printf("Enter age: ");
+    scanf("%d", &age);
 
-    printf("File created successfully! Data written to info.txt\n");
+    fprintf(file, "Name: %s\nAge: %d\n", name, age);
 
+    fclose(file);
+
+    printf("Data saved successfully to %s\n", filename);
     return 0;
 }
